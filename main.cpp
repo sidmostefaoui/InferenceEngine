@@ -10,7 +10,6 @@ int main()
 {
 
     std::vector<Fact> facts = {
-                                {"A", true},
                                 {"C", "non"}
                               };
 
@@ -20,12 +19,20 @@ int main()
 
 
     auto scanner = LexicalScanner();
-    auto tokens = scanner.ScanRule("A or (B and C) -> D = \"Malade\"");
-    
+    auto tokens = scanner.ScanRule("not A and B -> D = \"Malade\"");
+
     if (tokens)
     {
         std::cout << "scanned successfully. \n";
     }
+
+    auto rule = Parser::ParseRule(*tokens);
+
+    if (rule)
+    {
+        std::cout << "parsed successfully. \n";
+    }
+    
 
     auto inference_engine = InferenceEngine(facts, rules);
     std::cout << "inference:" << inference_engine.Deduce({ "D", "MALADE" }) << "\n";

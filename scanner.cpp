@@ -52,6 +52,7 @@ auto LexicalScanner::ScanFact(const std::string& line) -> std::optional<std::vec
 	line_ = line;
 	current_ = 0;
 	start_ = 0;
+	tokens_.clear();
 
 	while (!EndOfLine())
 	{
@@ -131,6 +132,7 @@ auto LexicalScanner::ScanExpr(const std::string& line) -> std::optional<std::vec
 	line_ = line;
 	current_ = 0;
 	start_ = 0;
+	tokens_.clear();
 
 	while (!EndOfLine())
 	{
@@ -161,6 +163,8 @@ auto LexicalScanner::ScanExpr(const std::string& line) -> std::optional<std::vec
 					AddToken(TokenType::AND);
 				else if (s == "or")
 					AddToken(TokenType::OR);
+				else if (s == "not")
+					AddToken(TokenType::NOT);
 				else
 				AddToken(TokenType::IDENTIFIER, ParseIdentifier());
 			}

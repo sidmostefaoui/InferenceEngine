@@ -14,7 +14,8 @@ enum class TokenType
 	LEFT_PAREN,
 	RIGH_PAREN,
 	AND,
-	OR
+	OR,
+	NOT
 };
 
 auto TokenTypeToStr(TokenType t) -> std::string;

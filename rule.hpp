@@ -8,10 +8,16 @@ struct NotCond;
 struct Cond;
 struct Rule;
 
+template<typename T>
+using Box = isocpp_p1950::indirect_value<T>;
+using ExprBox = std::variant<Box<Cond>, Box<NotCond>, Box<AndCond>>;
+using Expr = std::variant<AndCond, Cond, NotCond>;
+
 struct Cond
 {
 	template<typename T>
 	Cond(std::string_view name, T value) : fact_(name, value) {}
+	Cond(const Fact& fact) : fact_(fact) {}
 
 	AndCond operator&&(const Cond& other);
 	AndCond operator&&(const NotCond& other);
@@ -36,12 +42,9 @@ struct NotCond
 	Fact fact_;
 };
 
-template<typename T>
-using Box = isocpp_p1950::indirect_value<T>;
-using ExprBox = std::variant<Box<Cond>, Box<NotCond>, Box<AndCond>>;
-
 struct AndCond
 {
+	AndCond() : lhs_(), rhs_() {}
 	AndCond(const Box<Cond>& lhs, const Box<Cond>& rhs) : lhs_(lhs), rhs_(rhs) {}
 	AndCond(const Box<Cond>& lhs, const Box<NotCond>& rhs) : lhs_(lhs), rhs_(rhs) {}
 	AndCond(const Box<Cond>& lhs, const Box<AndCond>& rhs) : lhs_(lhs), rhs_(rhs) {}
@@ -64,7 +67,6 @@ struct AndCond
 	ExprBox rhs_;
 };
 
-using Expr = std::variant<AndCond, Cond, NotCond>;
 
 struct Rule
 {
@@ -72,6 +74,7 @@ struct Rule
 	Rule(const Cond& premise, const Fact& conlusion) : premise_(premise), conclusion_(conlusion) {}
 	Rule(const NotCond& premise, const Fact& conlusion) : premise_(premise), conclusion_(conlusion) {}
 	Rule(const AndCond& premise, const Fact& conlusion) : premise_(premise), conclusion_(conlusion) {}
+	Rule(const Expr& premise, const Fact& conclusion) : premise_(premise), conclusion_(conclusion) {}
 
 	Rule operator=(const Rule& rule)
 	{
