@@ -10,16 +10,18 @@ int main()
 {
 
     std::vector<Fact> facts = {
-                                {"C", "non"}
+                                {"A", true},
+                                {"B", true},
+                                {"C", -4}
                               };
 
     std::vector<Rule> rules = {
-                                Cond("A", true) >> Fact("D", "MALADE")
+                                //(Cond("A", true) && Cond("B", true) && Cond("C", 4)) >> Fact("D", "MALADE")
                               };
 
 
     auto scanner = LexicalScanner();
-    auto tokens = scanner.ScanRule("not A and B -> D = \"Malade\"");
+    auto tokens = scanner.ScanRule("A and B and C = -4 -> D = \"MALADE\"");
 
     if (tokens)
     {
@@ -31,6 +33,7 @@ int main()
     if (rule)
     {
         std::cout << "parsed successfully. \n";
+        rules.push_back(*rule);
     }
     
 

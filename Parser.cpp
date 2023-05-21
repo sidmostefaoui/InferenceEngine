@@ -155,6 +155,7 @@ auto Bexpr(const std::vector<Token>& tokens, int& i, Fact fact) -> std::optional
     if (tokens[i].type == TokenType::STRING) // str
     {
         fact.value_ = tokens[i].value;
+        i += 1;
         return fact;
     }
 
@@ -164,6 +165,7 @@ auto Bexpr(const std::vector<Token>& tokens, int& i, Fact fact) -> std::optional
             fact.value_ = std::stof(tokens[i].value);
         else
             fact.value_ = std::stoi(tokens[i].value);
+        i += 1;
         return fact;
     }
 
@@ -173,6 +175,7 @@ auto Bexpr(const std::vector<Token>& tokens, int& i, Fact fact) -> std::optional
             fact.value_ = -std::stof(tokens[i + 1].value);
         else
             fact.value_ = -std::stoi(tokens[i + 1].value);
+        i += 2;
         return fact;
     }
     
