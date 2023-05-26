@@ -20,20 +20,18 @@ int main()
                               };
 
 
-    auto scanner = LexicalScanner();
-    auto tokens = scanner.ScanRule("A and B and C = -4 -> D = \"MALADE\"");
+    auto tokens = Fact::Scanner::Scan("A(B) = -1.0");
 
     if (tokens)
     {
         std::cout << "scanned successfully. \n";
     }
 
-    auto rule = Parser::ParseRule(*tokens);
+    auto fact = Fact::Parser::Parse(*tokens);
 
-    if (rule)
+    if (fact)
     {
         std::cout << "parsed successfully. \n";
-        rules.push_back(*rule);
     }
     
 
