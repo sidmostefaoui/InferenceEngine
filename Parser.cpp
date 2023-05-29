@@ -1,16 +1,6 @@
 #include "Parser.hpp"
 #include <cassert>
 
-
-// fact grammar: S -> id A / id(id) A
-//          A -> epsilon / = B
-//          B -> str / num / - num
-
-
-
-
-
-
 // expr grammar: expr -> not expr | expr and expr | expr or expr | fact
 // this grammar is left recursive
 // equivalent non left recursive grammar: expr -> not expr | fact expr2

@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "fact.hpp"
-#include "inference.hpp"
-#include "rule.hpp"
+#include "Fact.hpp"
+#include "InferenceEngine.hpp"
+#include "Rule.hpp"
 #include "scanner.hpp"
 #include "Parser.hpp"
 
@@ -10,15 +10,15 @@ int main()
 {
 
     std::vector<Fact> facts = {
-                                {"A", true},
+                               // {"A", true},
                                 {"B", true},
                                 {"C", -4}
                               };
 
     std::vector<Rule> rules = {
-                                //(Cond("A", true) && Cond("B", true) && Cond("C", 4)) >> Fact("D", "MALADE")
-                              };
-
+                                !Expr::Equals("A", true) >> Fact("D", true),
+                                (!Expr::Equals("A", true) & Expr::Equals("C", -4)) >> Fact("D", false)
+    };
 
     auto tokens = Fact::Scanner::Scan("A(B) = -1.0");
 
@@ -36,8 +36,8 @@ int main()
     
 
     auto inference_engine = InferenceEngine(facts, rules);
-    std::cout << "inference:" << inference_engine.Deduce({ "D", "MALADE" }) << "\n";
+    std::cout << "inference:" << (inference_engine.Deduce({ "D", true }) ? "vrai" : "faux") << "\n";
 
-    std::cout << "Hello World!\n";
+    //std::cout << "Hello World!\n";
 }
 

@@ -8,11 +8,16 @@ class Fact
 {
 public:
     using Value = std::variant<int, float, bool, std::string>;
+	class Scanner;
+	class Parser;
+
     Fact(std::string_view name, Value value);
-    Fact(const Fact& fact);
-    friend bool operator==(const Fact& lhs, const Fact& rhs);
-    class Scanner;
-    class Parser;
+    Fact(const Fact& fact) = default;
+	friend bool operator==(const Fact& lhs, const Fact& rhs);
+
+	auto name() const -> const std::string&;
+	auto value() const -> Value;
+		
 private:
     std::string name_;
     Value value_;

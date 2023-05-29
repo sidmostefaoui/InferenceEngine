@@ -133,18 +133,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Expr.cpp" />
     <ClCompile Include="Fact.cpp" />
-    <ClCompile Include="inference.cpp" />
+    <ClCompile Include="InferenceEngine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.cpp" />
-    <ClCompile Include="rule.cpp" />
+    <ClCompile Include="Rule.cpp" />
     <ClCompile Include="scanner.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="fact.hpp" />
-    <ClInclude Include="inference.hpp" />
+    <ClInclude Include="Expr.hpp" />
+    <ClInclude Include="Fact.hpp" />
+    <ClInclude Include="InferenceEngine.hpp" />
     <ClInclude Include="Parser.hpp" />
-    <ClInclude Include="rule.hpp" />
+    <ClInclude Include="Rule.hpp" />
     <ClInclude Include="scanner.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

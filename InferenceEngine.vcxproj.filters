@@ -18,10 +18,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rule.cpp">
+    <ClCompile Include="Rule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="inference.cpp">
+    <ClCompile Include="InferenceEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scanner.cpp">
@@ -33,21 +33,27 @@
     <ClCompile Include="Fact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Expr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="fact.hpp">
+    <ClInclude Include="Fact.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inference.hpp">
+    <ClInclude Include="InferenceEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rule.hpp">
+    <ClInclude Include="Rule.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scanner.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Parser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Expr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

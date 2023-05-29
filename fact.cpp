@@ -7,8 +7,14 @@ Fact::Fact(std::string_view name, Value value)
 {
 }
 
-Fact::Fact(const Fact& fact) : name_(fact.name_), value_(fact.value_)
+auto Fact::name() const -> const std::string&
 {
+	return name_;
+}
+
+auto Fact::value() const -> Value
+{
+	return value_;
 }
 
 bool operator==(const Fact& lhs, const Fact& rhs)
@@ -71,7 +77,7 @@ auto Fact::Scanner::Scan(std::string_view line)->std::optional<std::vector<Token
 
 auto Fact::Scanner::AddToken(Token::Type type, std::string_view value) -> void
 {
-	tokens_.emplace_back(type, value);
+	tokens_.emplace_back(type, std::string(value));
 }
 
 auto Fact::Scanner::AddToken(Token::Type type) -> void
