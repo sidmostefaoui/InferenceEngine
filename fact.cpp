@@ -1,6 +1,7 @@
 
 #include "fact.hpp"
 #include <cassert>
+#include <string>
 
 Fact::Fact(std::string_view name, Value value)
     : name_(name), value_(value)

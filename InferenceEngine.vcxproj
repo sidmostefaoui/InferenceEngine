@@ -139,7 +139,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Rule.cpp" />
-    <ClCompile Include="scanner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Expr.hpp" />
@@ -147,7 +146,6 @@
     <ClInclude Include="InferenceEngine.hpp" />
     <ClInclude Include="Parser.hpp" />
     <ClInclude Include="Rule.hpp" />
-    <ClInclude Include="scanner.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

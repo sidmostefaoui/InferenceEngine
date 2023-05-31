@@ -19,19 +19,27 @@ int main()
                                 (Expr::GreaterThan("A", 3.0f) | Expr::Equals("B", true)) >> Fact("D", true)
     };
 
-    auto tokens = Fact::Scanner::Scan("A(B) = -1.0");
+    auto fact_tokens = Fact::Scanner::Scan("A(B) = -1.0");
 
-    if (tokens)
+    if (fact_tokens)
     {
-        std::cout << "scanned successfully. \n";
+        std::cout << "scanned fact successfully. \n";
     }
 
-    auto fact = Fact::Parser::Parse(*tokens);
+    auto fact = Fact::Parser::Parse(*fact_tokens);
 
     if (fact)
     {
-        std::cout << "parsed successfully. \n";
+        std::cout << "parsed fact successfully. \n";
     }
+
+    auto expr_tokens = Expr::Scanner::Scan("(A <= 4)");
+
+    if (expr_tokens)
+    {
+        std::cout << "scanned expression successfully. \n";
+    }
+
 
     auto inference_engine = InferenceEngine(facts, rules);
     std::cout << "inference:" << (inference_engine.Deduce({ "D", true }) ? "vrai" : "faux") << "\n";

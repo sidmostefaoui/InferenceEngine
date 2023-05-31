@@ -13,6 +13,7 @@ class Expr
 public:
 	using Value = Fact::Value;
 	class Scanner;
+	class Parser;
 
 	Expr(const Expr& other) = default;
 	static Expr Equals(std::string_view name, Value value);
@@ -68,6 +69,10 @@ public:
 			NUMBER,
 			STRING,
 			EQUALS,
+			LESS_THAN,
+			LESS_THAN_OR_EQUALS,
+			GREATER_THAN,
+			GREATER_THAN_OR_EQUALS,
 			MINUS,
 			L_PAREN,
 			R_PAREN,
@@ -97,4 +102,20 @@ private:
 	static std::vector<Token> tokens_;
 	static int start_;
 	static int current_;
+};
+
+class Expr::Parser
+{
+public:
+	using Token = Scanner::Token;
+	static auto Parse(const std::vector<Token>& tokens) -> std::optional<Fact>;
+
+private:
+	static auto Consume() -> Token;
+	static auto Peek(int i) -> Token;
+	static auto IsFloat(std::string_view s) -> bool;
+
+private:
+	static std::vector<Token> tokens_;
+	static int i_;
 };
