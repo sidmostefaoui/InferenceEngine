@@ -14,6 +14,46 @@ Expr Expr::Equals(std::string_view name, Fact::Value value)
 	return e;
 }
 
+Expr Expr::LessThan(std::string_view name, Value value)
+{
+	Expr e = {};
+	e.type_ = Type::LESS_THAN;
+	e.name_ = name;
+	e.lhs_ = value;
+	e.rhs_ = std::monostate();
+	return e;
+}
+
+Expr Expr::LessThanOrEquals(std::string_view name, Value value)
+{
+	Expr e = {};
+	e.type_ = Type::LESS_THAN_OR_EQUALS;
+	e.name_ = name;
+	e.lhs_ = value;
+	e.rhs_ = std::monostate();
+	return e;
+}
+
+Expr Expr::GreaterThan(std::string_view name, Value value)
+{
+	Expr e = {};
+	e.type_ = Type::GREATER_THAN;
+	e.name_ = name;
+	e.lhs_ = value;
+	e.rhs_ = std::monostate();
+	return e;
+}
+
+Expr Expr::GreaterThanOrEquals(std::string_view name, Value value)
+{
+	Expr e = {};
+	e.type_ = Type::GREATER_THAN_OR_EQUALS;
+	e.name_ = name;
+	e.lhs_ = value;
+	e.rhs_ = std::monostate();
+	return e;
+}
+
 Expr Expr::Not(const Expr& expr)
 {
 	Expr e = {};
@@ -69,7 +109,55 @@ auto Expr::Evaluate(std::span<Fact> facts) const -> bool
 		
 		for (auto& f : facts)
 		{
-			if (f.name() == name_ && f.value() == val)
+			if (f.name() == name_ && val == f.value())
+				return true;
+		}
+		return false;
+	}
+
+	if (type_ == Type::LESS_THAN)
+	{
+		Value val = *std::get_if<Value>(&lhs_);
+
+		for (auto& f : facts)
+		{
+			if (f.name() == name_ && f.value() < val)
+				return true;
+		}
+		return false;
+	}
+
+	if (type_ == Type::LESS_THAN_OR_EQUALS)
+	{
+		Value val = *std::get_if<Value>(&lhs_);
+
+		for (auto& f : facts)
+		{
+			if (f.name() == name_ && f.value() <= val)
+				return true;
+		}
+		return false;
+	}
+
+	if (type_ == Type::GREATER_THAN)
+	{
+		Value val = *std::get_if<Value>(&lhs_);
+
+		for (auto& f : facts)
+		{
+			if (f.name() == name_ && f.value() > val)
+				return true;
+		}
+		return false;
+	}
+
+	if (type_ == Type::GREATER_THAN_OR_EQUALS)
+	{
+		Value val = *std::get_if<Value>(&lhs_);
+
+		for (auto& f : facts)
+		{
+			if (f.name() == name_ && f.value() >= val)
 				return true;
 		}
 		return false;

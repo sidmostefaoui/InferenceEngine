@@ -10,14 +10,13 @@ int main()
 {
 
     std::vector<Fact> facts = {
-                               // {"A", true},
-                                {"B", true},
+                                {"A", 4.0f},
+                                {"B", false},
                                 {"C", -4}
                               };
 
     std::vector<Rule> rules = {
-                                !Expr::Equals("A", true) >> Fact("D", true),
-                                (!Expr::Equals("A", true) & Expr::Equals("C", -4)) >> Fact("D", false)
+                                (Expr::GreaterThan("A", 3.0f) | Expr::Equals("B", true)) >> Fact("D", true)
     };
 
     auto tokens = Fact::Scanner::Scan("A(B) = -1.0");
@@ -33,7 +32,6 @@ int main()
     {
         std::cout << "parsed successfully. \n";
     }
-    
 
     auto inference_engine = InferenceEngine(facts, rules);
     std::cout << "inference:" << (inference_engine.Deduce({ "D", true }) ? "vrai" : "faux") << "\n";
