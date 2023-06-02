@@ -10,7 +10,7 @@ int main()
 {
 
     std::vector<Fact> facts = {
-                                {"A", 4.0f},
+                                {"A", 2},
                                 {"B", false},
                                 {"C", -4}
                               };
@@ -33,11 +33,18 @@ int main()
         std::cout << "parsed fact successfully. \n";
     }
 
-    auto expr_tokens = Expr::Scanner::Scan("(A <= 4)");
+    auto expr_tokens = Expr::Scanner::Scan("(A <= 4) and B = 3");
 
     if (expr_tokens)
     {
         std::cout << "scanned expression successfully. \n";
+    }
+
+    auto expr = Expr::Parser::Parse(*expr_tokens);
+
+    if (expr)
+    {
+        std::cout << "parsed expression successfully. \n";
     }
 
 

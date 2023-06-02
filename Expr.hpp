@@ -15,7 +15,7 @@ public:
 	class Scanner;
 	class Parser;
 
-	Expr(const Expr& other) = default;
+	Expr(const Expr& other);
 	static Expr Equals(std::string_view name, Value value);
 	static Expr LessThan(std::string_view name, Value value);
 	static Expr LessThanOrEquals(std::string_view name, Value value);
@@ -76,6 +76,9 @@ public:
 			MINUS,
 			L_PAREN,
 			R_PAREN,
+			NOT,
+			AND,
+			OR,
 			EOL
 		};
 
@@ -108,12 +111,19 @@ class Expr::Parser
 {
 public:
 	using Token = Scanner::Token;
-	static auto Parse(const std::vector<Token>& tokens) -> std::optional<Fact>;
+	static auto Parse(const std::vector<Token>& tokens) -> std::optional<Expr>;
 
 private:
 	static auto Consume() -> Token;
 	static auto Peek(int i) -> Token;
 	static auto IsFloat(std::string_view s) -> bool;
+
+	static auto expr() -> std::optional<Expr>;
+	static auto expr2(Expr lhs) -> std::optional<Expr>;
+	static auto cond() -> std::optional<Expr>;
+	static auto comp(Expr lhs) -> std::optional<Expr>;
+	static auto val(Expr lhs) -> std::optional<Expr>;
+
 
 private:
 	static std::vector<Token> tokens_;

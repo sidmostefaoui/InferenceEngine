@@ -3,7 +3,13 @@
 
 #include <cassert>
 #include <cctype>
+#include <string>
 
+
+Expr::Expr(const Expr& other)
+	: type_(other.type_), name_(other.name_), lhs_(other.lhs_), rhs_(other.rhs_)
+{
+}
 
 Expr Expr::Equals(std::string_view name, Fact::Value value)
 {
@@ -219,6 +225,9 @@ auto Expr::Scanner::Scan(std::string_view line)->std::optional<std::vector<Token
 		case '=': AddToken(Token::Type::EQUALS); break;
 		case '-': AddToken(Token::Type::MINUS); break;
 		case '"': AddToken(Token::Type::STRING, String()); break;
+		case '!': AddToken(Token::Type::NOT); break;
+		case '&': AddToken(Token::Type::AND); break;
+		case '|': AddToken(Token::Type::OR); break;
 		case ' ':
 		case '\t':
 		case '\r':
@@ -340,4 +349,202 @@ auto Expr::Scanner::IsDigit(char c) -> bool
 auto Expr::Scanner::IsAlpha(char c) -> bool
 {
 	return std::isalpha(static_cast<unsigned char>(c));
+}
+
+// Parser Class
+
+std::vector<Expr::Parser::Token> Expr::Parser::tokens_;
+int Expr::Parser::i_ = 0;
+
+auto Expr::Parser::Parse(const std::vector<Token>& tokens) -> std::optional<Expr>
+{
+	tokens_ = tokens;
+	i_ = 0;
+	assert(tokens_.size() != 0);
+	return expr();
+}
+
+auto Expr::Parser::Consume() -> Token
+{
+	assert(i_ < tokens_.size());
+	return tokens_[i_++];
+}
+
+auto Expr::Parser::Peek(int i) -> Token
+{
+	assert(i > 0 && ((i_ - 1 + i) < tokens_.size()));
+	return tokens_[i_ - 1 + i];
+}
+
+auto Expr::Parser::IsFloat(std::string_view s) -> bool
+{
+	return s.find('.') != std::string::npos;
+}
+
+// expr grammar: expr -> not expr | (expr) | expr and expr | expr or expr | cond
+// this grammar is left recursive
+// equivalent non left recursive grammar: expr -> not expr expr2 | (expr) expr2 | cond expr2
+//                                        expr2 -> and expr expr2 | or expr expr2 | epsilon
+//										  cond -> id comp | id(id) comp
+//										  comp -> epsilon | = val | < val | <= val | > val | >= val
+//									      val -> str | num | - num
+
+auto Expr::Parser::expr() -> std::optional<Expr>
+{
+	Token t = Peek(1);
+	
+	if (t.type == Token::Type::NOT) // not expr expr2
+	{
+		Consume();
+		auto e = expr();
+		if (!e)
+			return std::nullopt;
+		return expr2(Expr::Not(*e));
+	}
+
+	if (t.type == Token::Type::L_PAREN) // (expr) expr2
+	{
+		Consume();
+		auto e = expr();
+		if (!e) 
+			return std::nullopt;
+
+		if (Peek(1).type == Token::Type::R_PAREN)
+		{
+			Consume();
+			return expr2(*e);
+		}
+
+		return std::nullopt;
+	}
+
+	// cond expr2
+	auto c = cond();
+	if (!c)
+		return std::nullopt;
+	return expr2(*c);
+}
+
+auto Expr::Parser::expr2(Expr lhs) -> std::optional<Expr>
+{
+	Token t = Peek(1);
+
+	if (t.type == Token::Type::EOL || t.type == Token::Type::R_PAREN) // epsilon
+		return lhs;
+
+	t = Consume();
+	if (t.type == Token::Type::AND) // and expr expr2
+	{
+		auto e = expr();
+		if (!e)
+			return std::nullopt;
+		return expr2(Expr::And(lhs, *e));
+	}
+
+	if (t.type == Token::Type::OR) // and expr expr2
+	{
+		auto e = expr();
+		if (!e)
+			return std::nullopt;
+		return expr2(Expr::Or(lhs, *e));
+	}
+
+	return std::nullopt;
+}
+
+auto Expr::Parser::cond() -> std::optional<Expr>
+{
+	Token t = Consume();
+
+	if (t.type == Token::Type::IDENTIFIER && Peek(1).type == Token::Type::L_PAREN)
+	{
+		Consume();
+		Token t2 = Consume();
+
+		if (t2.type == Token::Type::IDENTIFIER && Peek(1).type == Token::Type::R_PAREN)
+		{
+			Consume();
+			return comp(Expr::Equals(t.value + "(" + t2.value + ")", true));
+		}
+		
+		return std::nullopt;
+	}
+
+	if (t.type == Token::Type::IDENTIFIER)
+	{
+		return comp(Expr::Equals(t.value, true));
+	}
+
+	return std::nullopt;
+}
+
+auto Expr::Parser::comp(Expr lhs) -> std::optional<Expr>
+{
+	Token t = Peek(1);
+	if (t.type == Token::Type::EOL || t.type == Token::Type::AND || t.type == Token::Type::OR || t.type == Token::Type::R_PAREN) // epsilon
+		return lhs;
+
+	t = Consume();
+
+	if (t.type == Token::Type::EQUALS)
+		return val(lhs);
+
+	if (t.type == Token::Type::LESS_THAN)
+	{
+		lhs.type_ = Expr::Type::LESS_THAN;
+		return val(lhs);
+	}
+
+	if (t.type == Token::Type::LESS_THAN_OR_EQUALS)
+	{
+		lhs.type_ = Expr::Type::LESS_THAN_OR_EQUALS;
+		return val(lhs);
+	}
+
+	if (t.type == Token::Type::GREATER_THAN)
+	{
+		lhs.type_ = Expr::Type::GREATER_THAN;
+		return val(lhs);
+	}
+
+	if (t.type == Token::Type::GREATER_THAN_OR_EQUALS)
+	{
+		lhs.type_ = Expr::Type::GREATER_THAN_OR_EQUALS;
+		return val(lhs);
+	}
+
+	return std::nullopt;
+}
+
+auto Expr::Parser::val(Expr lhs) -> std::optional<Expr>
+{
+	Token t = Consume();
+
+	if (t.type == Token::Type::STRING)
+	{
+		lhs.lhs_ = t.value;
+		return lhs;
+	}
+
+	if (t.type == Token::Type::NUMBER)
+	{
+		if (IsFloat(t.value))
+			lhs.lhs_ = std::stof(t.value);
+		else
+			lhs.lhs_ = std::stoi(t.value);
+		return lhs;
+	}
+
+	if (t.type == Token::Type::MINUS && Peek(1).type == Token::Type::NUMBER)
+	{
+		Token t2 = Consume();
+
+		if (IsFloat(t2.value))
+			lhs.lhs_ = std::stof(t2.value);
+		else
+			lhs.lhs_ = std::stoi(t2.value);
+		return lhs;
+	}
+
+	return std::nullopt;
 }
