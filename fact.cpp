@@ -1,7 +1,8 @@
+#include "Fact.hpp"
 
-#include "fact.hpp"
 #include <cassert>
 #include <string>
+#include <vector>
 
 Fact::Fact(std::string_view name, Value value)
     : name_(name), value_(value)
@@ -88,6 +89,7 @@ auto Fact::Scanner::AddToken(Token::Type type) -> void
 
 auto Fact::Scanner::EndOfLine() -> bool
 {
+	
 	return line_[current_] == '\0';
 }
 

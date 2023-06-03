@@ -108,11 +108,17 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)\vendor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\vendor\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -124,28 +130,47 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)\vendor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\vendor\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="App.cpp" />
     <ClCompile Include="Expr.cpp" />
     <ClCompile Include="Fact.cpp" />
+    <ClCompile Include="FactsWindow.cpp" />
     <ClCompile Include="InferenceEngine.cpp" />
+    <ClCompile Include="InferenceWindow.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Rule.cpp" />
+    <ClCompile Include="RulesWindow.cpp" />
+    <ClCompile Include="vendor\src\glad.c" />
+    <ClCompile Include="vendor\src\imgui-1.89.3\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="vendor\src\imgui-1.89.3\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="vendor\src\imgui-1.89.3\imgui.cpp" />
+    <ClCompile Include="vendor\src\imgui-1.89.3\imgui_draw.cpp" />
+    <ClCompile Include="vendor\src\imgui-1.89.3\imgui_tables.cpp" />
+    <ClCompile Include="vendor\src\imgui-1.89.3\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App.hpp" />
     <ClInclude Include="Expr.hpp" />
     <ClInclude Include="Fact.hpp" />
+    <ClInclude Include="FactsWindow.h" />
     <ClInclude Include="InferenceEngine.hpp" />
-    <ClInclude Include="Parser.hpp" />
+    <ClInclude Include="InferenceWindow.hpp" />
     <ClInclude Include="Rule.hpp" />
+    <ClInclude Include="RulesWindow.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

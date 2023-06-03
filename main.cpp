@@ -3,54 +3,39 @@
 #include "Fact.hpp"
 #include "InferenceEngine.hpp"
 #include "Rule.hpp"
-#include "scanner.hpp"
-#include "Parser.hpp"
+#include "App.hpp"
+#include "FactsWindow.h"
+#include "RulesWindow.hpp"
+#include "InferenceWindow.hpp"
 
 int main()
 {
+    App::Create("", 640, 480);
 
-    std::vector<Fact> facts = {
-                                {"A", 2},
-                                {"B", false},
-                                {"C", -4}
-                              };
 
-    std::vector<Rule> rules = {
-                                (Expr::GreaterThan("A", 3.0f) | Expr::Equals("B", true)) >> Fact("D", true)
+    std::vector<std::string> rules = {
+        "Toux chronique & Fievre & SueurNocturne & Amaigrissement & Crachat -> Maladie = \"Tuberculose\""
     };
 
-    auto fact_tokens = Fact::Scanner::Scan("A(B) = -1.0");
+    auto inference_engine = InferenceEngine();
 
-    if (fact_tokens)
+   // Add rules to inference engine
+
+    auto fact_wnd = FactsWindow(inference_engine);
+    auto rule_wnd = RulesWindow(inference_engine, rules);
+    auto inf_wnd = InferenceWindow(inference_engine);
+
+    while (App::IsRunning())
     {
-        std::cout << "scanned fact successfully. \n";
+        App::StartFrame();
+
+        fact_wnd.Draw();
+        rule_wnd.Draw();
+        inf_wnd.Draw();
+
+        App::EndFrame();
     }
 
-    auto fact = Fact::Parser::Parse(*fact_tokens);
-
-    if (fact)
-    {
-        std::cout << "parsed fact successfully. \n";
-    }
-
-    auto expr_tokens = Expr::Scanner::Scan("(A <= 4) and B = 3");
-
-    if (expr_tokens)
-    {
-        std::cout << "scanned expression successfully. \n";
-    }
-
-    auto expr = Expr::Parser::Parse(*expr_tokens);
-
-    if (expr)
-    {
-        std::cout << "parsed expression successfully. \n";
-    }
-
-
-    auto inference_engine = InferenceEngine(facts, rules);
-    std::cout << "inference:" << (inference_engine.Deduce({ "D", true }) ? "vrai" : "faux") << "\n";
-
-    //std::cout << "Hello World!\n";
+    App::Shutdown();
 }
 

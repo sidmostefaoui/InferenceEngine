@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\vendor">
+      <UniqueIdentifier>{2d0eff65-1c48-457f-802f-f3625a61dc3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\vendor\imgui">
+      <UniqueIdentifier>{bf1e0b58-3142-40f1-a787-75aadcfa36e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\vendor\glad">
+      <UniqueIdentifier>{f22a0b94-59c7-42c4-aaec-820062fd27f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,13 +33,43 @@
     <ClCompile Include="InferenceEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Parser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Fact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Expr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\src\imgui-1.89.3\backends\imgui_impl_glfw.cpp">
+      <Filter>Source Files\vendor\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\src\imgui-1.89.3\backends\imgui_impl_opengl3.cpp">
+      <Filter>Source Files\vendor\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\src\imgui-1.89.3\imgui.cpp">
+      <Filter>Source Files\vendor\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\src\imgui-1.89.3\imgui_draw.cpp">
+      <Filter>Source Files\vendor\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\src\imgui-1.89.3\imgui_tables.cpp">
+      <Filter>Source Files\vendor\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\src\imgui-1.89.3\imgui_widgets.cpp">
+      <Filter>Source Files\vendor\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\src\glad.c">
+      <Filter>Source Files\vendor\glad</Filter>
+    </ClCompile>
+    <ClCompile Include="FactsWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RulesWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InferenceWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,10 +83,19 @@
     <ClInclude Include="Rule.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Parser.hpp">
+    <ClInclude Include="Expr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Expr.hpp">
+    <ClInclude Include="App.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FactsWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RulesWindow.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InferenceWindow.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

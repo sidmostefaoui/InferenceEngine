@@ -11,6 +11,16 @@ InferenceEngine::InferenceEngine(std::span<Fact> facts, std::span<Rule> rules)
         rule_base_.push_back(r);
 }
 
+auto InferenceEngine::AddFact(const Fact& fact) -> void
+{
+    fact_base_.push_back(fact);
+}
+
+auto InferenceEngine::AddRule(const Rule& rule) -> void
+{
+    rule_base_.push_back(rule);
+}
+
 auto ApplicableRules(std::span<Rule> rules, std::span<Fact> facts) -> std::vector<Rule*>
 {
     std::vector<Rule*> applicable_rules;

@@ -2,7 +2,8 @@
 
 #include <variant>
 #include <string_view>
-#include "scanner.hpp"
+#include <optional>
+#include <vector>
 
 class Fact
 {
