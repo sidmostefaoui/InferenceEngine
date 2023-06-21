@@ -1,4 +1,4 @@
-#include "Fact.hpp"
+#include <InferenceEngine/Fact.hpp>
 
 #include <cassert>
 #include <string>

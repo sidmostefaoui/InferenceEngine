@@ -1,5 +1,5 @@
 #include "App.hpp"
-#include "InferenceEngine.hpp"
+#include <InferenceEngine/InferenceEngine.hpp>
 #include "FactsWindow.h"
 #include "RulesWindow.hpp"
 #include "InferenceWindow.hpp"

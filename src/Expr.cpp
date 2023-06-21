@@ -1,5 +1,5 @@
-#include "Expr.hpp"
-#include "Rule.hpp"
+#include <InferenceEngine/Expr.hpp>
+#include <InferenceEngine/Rule.hpp>
 
 #include <cassert>
 #include <cctype>

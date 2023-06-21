@@ -1,4 +1,4 @@
-#include "Rule.hpp"
+#include <InferenceEngine/Rule.hpp>
 
 Rule::Rule(const Expr& premise, const Fact& conclusion)
 	: premise_(premise), conclusion_(conclusion)

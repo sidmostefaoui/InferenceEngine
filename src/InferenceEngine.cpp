@@ -1,5 +1,5 @@
 #include <iostream>
-#include "InferenceEngine.hpp"
+#include <InferenceEngine/InferenceEngine.hpp>
 
 InferenceEngine::InferenceEngine(std::span<Fact> facts, std::span<Rule> rules)
     : fact_base_(), rule_base_()
