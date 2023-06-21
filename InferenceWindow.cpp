@@ -21,7 +21,7 @@ auto InferenceWindow::Draw() -> void
 		ImGui::InputTextWithHint(" ", "Inferer un fait", input_, IM_ARRAYSIZE(input_));
 
         ImGui::SameLine();
-        if (ImGui::Button("Ajouter"))
+        if (ImGui::Button("Inferer"))
         {
             auto tokens = Fact::Scanner::Scan(input_);
 
@@ -55,7 +55,7 @@ auto InferenceWindow::Draw() -> void
 
         if (syntax_error)
         {
-            ImGui::Text("erreur syntaxique");
+            ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Erreur syntaxique");
         }
 
         ImGui::Separator();

@@ -2,7 +2,8 @@
 
 #include <variant>
 #include <string_view>
-#include "scanner.hpp"
+#include <optional>
+#include <vector>
 
 class Fact
 {
@@ -52,7 +53,7 @@ private:
 	static auto EndOfLine() -> bool;
 	static auto Consume() -> char;
 	static auto Peek(int i) -> char;
-	static auto String() -> std::string;
+	static auto String() -> std::optional<std::string>;
 	static auto Number() -> std::string;
 	static auto Identifier() -> std::string;
 	static auto IsDigit(char c) -> bool;

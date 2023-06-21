@@ -49,11 +49,18 @@ auto Fact::Scanner::Scan(std::string_view line)->std::optional<std::vector<Token
 		case ')': AddToken(Token::Type::R_PAREN); break;
 		case '=': AddToken(Token::Type::EQUALS); break;
 		case '-': AddToken(Token::Type::MINUS); break;
-		case '"': AddToken(Token::Type::STRING, String()); break;
 		case ' ':
 		case '\t':
 		case '\r':
 			break;
+		case '"':
+		{
+			std::optional<std::string> str = String();
+			if (!str)
+				return std::nullopt;
+			AddToken(Token::Type::STRING, *str); 
+		}
+		break;
 		default:
 		{
 			if (IsDigit(c))
@@ -107,14 +114,17 @@ auto Fact::Scanner::Peek(int count) -> char
 	return line_[i];
 }
 
-auto Fact::Scanner::String() -> std::string
+auto Fact::Scanner::String() -> std::optional<std::string>
 {
 	while (Peek(1) != '"' && !EndOfLine())
 	{
 		Consume();
 	}
-	Consume();
 
+	if (EndOfLine())
+		return std::nullopt;
+
+	Consume();
 	return line_.substr(start_ + 1, current_ - start_ - 2);
 }
 

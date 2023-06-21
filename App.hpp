@@ -1,17 +1,25 @@
 #pragma once
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
 #include <string>
+#include <functional>
+
+struct GLFWwindow;
+
+class Window
+{
+public:
+	Window(const std::string& title, int width, int height);
+	Window(const Window&) = delete;
+	~Window();
+	GLFWwindow* handle_;
+};
 
 class App
 {
 public:
-	static auto Create(const std::string& title, int w, int h) -> void;
-	static auto Shutdown() -> void;
-	static auto StartFrame() -> void;
-	static auto EndFrame() -> void;
-	static auto IsRunning() -> bool;
+	App(const std::string& title, int w, int h);
+	~App();
+	App(const App&) = delete;
+	auto loop(std::function<void()> f) -> void;
 private:
-	static GLFWwindow* wnd_handle_;
+	Window window_;
 };
-

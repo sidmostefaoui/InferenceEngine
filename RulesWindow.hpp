@@ -3,10 +3,10 @@
 #include <vector>
 #include <string>
 
-class RulesWindow
+class RulesWindow   
 {
 public:
-    RulesWindow(InferenceEngine& ie, const std::vector<std::string>& rules);
+    RulesWindow(InferenceEngine& ie);
     auto Draw() -> void;
 
 private:

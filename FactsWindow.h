@@ -1,5 +1,4 @@
 #pragma once
-
 #include "InferenceEngine.hpp"
 
 class FactsWindow

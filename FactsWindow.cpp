@@ -22,7 +22,7 @@ auto FactsWindow::Draw() -> void
 
             if (!tokens)
             {
-                syntax_error = false;
+                syntax_error = true;
                 goto brk;
             }
 
@@ -42,13 +42,15 @@ brk:
 
         if (syntax_error)
         {
-            ImGui::Text("erreur syntaxique");
+            ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Erreur syntaxique");
         }
 
         ImGui::Separator();
 
-        for (auto& f : facts)
-            ImGui::Text(f.c_str());
+        for (int i = 0; i < facts.size(); i++)
+        {
+            ImGui::TextWrapped("%i. %s", i + 1, facts[i].c_str());
+        }
 
     }
     ImGui::End();
